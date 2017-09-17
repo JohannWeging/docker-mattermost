@@ -4,17 +4,16 @@ services:
   - docker
 
 env:
-  - LATEST=4.2.0
-  - VERSION=4.2.0
-  - VERSION=4.1.0
-  - VERSION=4.0.3
-  - VERSION=4.0.2
-  - VERSION=4.0.1
-  - VERSION=4.0.0
+  global:
+    - LATEST=4.2.0
+  matrix:
+    - VERSION=4.2.0
+    - VERSION=4.1.0
+    - VERSION=4.0.3
+    - VERSION=4.0.2
+    - VERSION=4.0.1
+    - VERSION=4.0.0
 
-matrix:
-  exclude:
-    env: LATEST
 
 install: true
 
