@@ -12,6 +12,10 @@ env:
   - VERSION=4.0.1
   - VERSION=4.0.0
 
+matrix:
+  exclude:
+    env: LATEST
+
 install: true
 
 before_script:
