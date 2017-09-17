@@ -32,6 +32,8 @@ for section in $(jq -r "keys[]" ${DEFAULT_CONF_PATH}); do
         v=MM_${section}_${key}
         if [[ ${!v} == "[]" ]]; then
             jq --argjson "inarg" "${!v}" ".${section}.${key} |= \$inarg" /tmp/config.json > /tmp/config.json.new
+        elif [[ ${!v} == "{}" ]]; then
+            jq --argjson "inarg" "${!v}" ".${section}.${key} |= \$inarg" /tmp/config.json > /tmp/config.json.new
         else
             jq --arg "inarg" "${!v}" ".${section}.${key} |= \$inarg" /tmp/config.json > /tmp/config.json.new
         fi
