@@ -1,0 +1,31 @@
+language: generic
+sudo: required
+services:
+  - docker
+
+env:
+  - LATEST=4.2.0
+  - VERSION=4.2.0
+  - VERSION=4.1.0
+  - VERSION=4.0.3
+  - VERSION=4.0.2
+  - VERSION=4.0.1
+  - VERSION=4.0.0
+
+install: true
+
+before_script:
+  - docker --version
+
+script:
+  - cat Dockerfile.tmpl | envsubst '$VERSION' > Dockerfile
+  - docker build -t johannweging/mattermost:${VERSION} ./
+
+before_deploy:
+  - docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
+
+deploy:
+  provider: script
+  script: deploy.sh
+  on:
+    all_branches: true
