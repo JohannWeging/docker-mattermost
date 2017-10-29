@@ -23,8 +23,7 @@ before_script:
   - docker --version
 
 script:
-  - cat Dockerfile.tmpl | envsubst '$VERSION' > Dockerfile
-  - docker build -t johannweging/mattermost:${VERSION} ./
+  - docker build --build-arg MATTERMOST_VERSION=${VERSION} -t johannweging/mattermost:${VERSION} ./
 
 before_deploy:
   - docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}

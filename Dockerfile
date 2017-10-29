@@ -1,6 +1,8 @@
 FROM johannweging/base-alpine:latest
 
-ENV MATTERMOST_VERSION=4.3.1
+ARG MATTERMOST_VERSION
+
+ENV MATTERMOST_VERSION=${MATTERMOST_VERSION}
 
 # install mattermost
 RUN set -x \
