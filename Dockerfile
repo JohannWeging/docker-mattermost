@@ -1,4 +1,4 @@
-FROM johannweging/base-alpine:latest
+FROM johannweging/base-alpine:edge
 
 ARG MATTERMOST_VERSION
 
