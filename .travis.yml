@@ -5,20 +5,14 @@ services:
 
 env:
   global:
-    - LATEST=4.4.2
+    - LATEST=4.5.0
   matrix:
-    - VERSION=4.4.2
-    - VERSION=4.4.1
-    - VERSION=4.4.0
-    - VERSION=4.3.2
-    - VERSION=4.3.1
-    - VERSION=4.3.0
-    - VERSION=4.2.0
-    - VERSION=4.1.0
-    - VERSION=4.0.3
-    - VERSION=4.0.2
-    - VERSION=4.0.1
-    - VERSION=4.0.0
+    - VERSION=4.5.0
+    - VERSION=4.4.5
+    - VERSION=4.3.4
+    - VERSION=4.2.2
+    - VERSION=4.1.2
+    - VERSION=4.0.5
 
 
 install: true
@@ -27,7 +21,8 @@ before_script:
   - docker --version
 
 script:
-  - docker build --build-arg MATTERMOST_VERSION=${VERSION} -t johannweging/mattermost:${VERSION} ./
+  - TAG_VERSION=${VERSION%.*}
+  - docker build --build-arg MATTERMOST_VERSION=${TAG_VERSION} -t johannweging/mattermost:${TAG_VERSION} ./
 
 before_deploy:
   - docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
