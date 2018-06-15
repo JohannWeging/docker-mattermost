@@ -7,14 +7,21 @@ env:
   global:
     - LATEST=4.6.0
   matrix:
-    - VERSION=4.6.0
+    - VERSION=4.10.1
+    - VERSION=4.9.4
+    - VERSION=4.8.2
+    - VERSION=4.7.4
+    - VERSION=4.6.3
     - VERSION=4.5.1
-    - VERSION=4.4.5
-    - VERSION=4.3.4
-    - VERSION=4.2.2
-    - VERSION=4.1.2
-    - VERSION=4.0.5
 
+before_install:
+  - sudo apt-get remove docker docker-engine docker.io
+  - sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+  - sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get install docker-ce
+  - sudo service docker restart
 
 install: true
 
@@ -26,7 +33,7 @@ script:
   - docker build --build-arg MATTERMOST_VERSION=${VERSION} -t johannweging/mattermost:${TAG_VERSION} ./
 
 before_deploy:
-  - docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
+  - echo ${DOCKER_PASSWORD} | docker login --username ${DOCKER_USERNAME} --password-stdin
 
 deploy:
   provider: script
