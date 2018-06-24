@@ -2,13 +2,18 @@ FROM johannweging/base-alpine:edge
 
 ARG MATTERMOST_VERSION
 
-ENV MATTERMOST_VERSION=${MATTERMOST_VERSION}
+ENV MATTERMOST_VERSION=${MATTERMOST_VERSION} CONSUL_TEMPLATE_VERSION=0.19.5
 
 # install mattermost
 RUN set -x \
 && apk add --update --no-cache jq bash
 
 RUN set -x \
+&& curl https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.tgz > /tmp/consul-template.tgz \
+&& cd /tmp \
+&& tar -xf consul-template.tgz \
+&& mv consul-template /usr/bin \
+&& cd / \
 && mkdir -p /opt \
 && mkdir -p /go \
 && export GOPATH=/go \
@@ -36,12 +41,10 @@ RUN set -x \
 && addgroup mattermost \
 && adduser -D -G mattermost mattermost
 
-RUN set -x \
-&& chown -R mattermost:mattermost /opt/mattermost
-
 ADD rootfs /
 
 RUN set -x \
+&& chown -R mattermost:mattermost /opt/mattermost \
 && chmod +x /mattermost.sh
 
 EXPOSE 3000
