@@ -5,9 +5,11 @@ services:
 
 env:
   global:
-    - LATEST=4.10.1
+    - LATEST=5.1.0
   matrix:
-    - VERSION=4.10.1
+    - VERSION=5.1.0
+    - VERSION=5.0.2
+    - VERSION=4.10.2
     - VERSION=4.9.4
     - VERSION=4.8.2
     - VERSION=4.7.4
